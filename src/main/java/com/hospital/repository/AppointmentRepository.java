@@ -10,22 +10,25 @@ import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, String> {
 
-        @Query("SELECT COUNT(a) FROM Appointment a")
-Long countTotalAppointments();
+    // Count all appointments
+    @Query("SELECT COUNT(a) FROM Appointment a")
+    Long countTotalAppointments();
 
-Long countByAppointmentTimeBetween(
-        LocalDateTime start,
-        LocalDateTime end
-);
+    // Count appointments between time range
+    Long countByAppointmentTimeBetween(
+            LocalDateTime start,
+            LocalDateTime end
+    );
 
-    
- Optional<Appointment> findByDoctor_IdAndAppointmentTime(
-        String doctorId,
-        LocalDateTime appointmentTime
-);
+    // Check doctor availability
+    Optional<Appointment> findByDoctor_IdAndAppointmentTime(
+            String doctorId,
+            LocalDateTime appointmentTime
+    );
 
-List<Appointment> findByAppointmentTimeBetween(
-        LocalDateTime start,
-        LocalDateTime end
-);
+    // Get appointments between time range
+    List<Appointment> findByAppointmentTimeBetween(
+            LocalDateTime start,
+            LocalDateTime end
+    );
 }
