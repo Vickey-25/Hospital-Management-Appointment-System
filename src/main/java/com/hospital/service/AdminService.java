@@ -1,29 +1,32 @@
-
 package com.hospital.service;
 
-import com.hospital.repository.AppointmentRepository;  
+import com.hospital.repository.AppointmentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AdminService {
 
     private final AppointmentRepository appointmentRepository;
 
+    // Total appointments
     public Long getTotalAppointments() {
         return appointmentRepository.countTotalAppointments();
     }
 
-public Long getTodayAppointments() {
+    // Today's appointments
+    public Long getTodayAppointments() {
 
-    LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
-    LocalDateTime endOfDay = LocalDate.now().atTime(23, 59, 59);
+        LocalDateTime startOfDay = LocalDateTime.now()
+                .toLocalDate()
+                .atStartOfDay();
 
-    return appointmentRepository
-            .countByAppointmentTimeBetween(startOfDay, endOfDay);
-}
+        LocalDateTime endOfDay = startOfDay.plusDays(1);
+
+        return appointmentRepository
+                .countByAppointmentTimeBetween(startOfDay, endOfDay);
+    }
 }
